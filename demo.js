@@ -103,12 +103,15 @@ house.position.set(2.8, 0, -1.6);
 house.rotation.y = -0.15;
 scene.add(house);
 add(box(3, 2, 2.4), mat(0xeadcb8), 0, 1, 0, house);
-const roof = add(new THREE.CylinderGeometry(1.75, 1.75, 3.4, 3), mat(0x9a3a2e), 0, 2.85, 0, house);
-roof.rotation.set(0, 0, Math.PI / 2);
-roof.scale.set(1, 1, 0.78);
+// The gable roof: a triangle across the house depth, extruded along the width. Both have a 0.2 overhang.
+const gable = new THREE.Shape([new THREE.Vector2(-1.4, 0), new THREE.Vector2(1.4, 0), new THREE.Vector2(0, 1.2)]);
+const roofGeometry = new THREE.ExtrudeGeometry(gable, { depth: 3.4, bevelEnabled: false });
+roofGeometry.translate(0, 0, -1.7);
+roofGeometry.rotateY(Math.PI / 2); // the triangle now spans z, the extrusion spans x
+add(roofGeometry, mat(0x9a3a2e), 0, 2, 0, house);
 add(box(0.6, 1.1, 0.08), mat(0x5e3e24), -0.6, 0.55, 1.22, house);
 add(box(0.6, 0.5, 0.08), mat(0x9ec9d6), 0.65, 1.15, 1.22, house);
-add(box(0.45, 0.9, 0.45), mat(0x7a3a2c), 0.9, 3.3, -0.4, house); // chimney
+add(box(0.45, 1.4, 0.45), mat(0x7a3a2c), 0.9, 3.05, -0.4, house); // chimney: the base is inside the roof
 
 // Trees: a trunk and a clump of leaves.
 function tree(x, z, s, leaves) {
