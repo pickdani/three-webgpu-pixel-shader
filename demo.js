@@ -340,7 +340,7 @@ sitter.rotation.y = -0.6;
 // The filter, and a plain pass of the same scene. The final image takes the
 // plain pass left of the divider and the filter right of it.
 // edgeDepth is a fraction of (far - near): 0.012 x 99 is about 1.2 units for this camera.
-const pixel = createPixelPipeline(renderer, scene, camera, { edgeDepth: 0.012 });
+const pixel = createPixelPipeline(renderer, scene, camera, { pixelSize: 2, dither: 0.1, outlines: 0.5, edgeDepth: 0.012 });
 const plain = pass(scene, camera);
 plain.setMRT(mrt({ output, mask: float(1) })); // the same outputs as the sharp materials
 const split = uniform(0.5);
